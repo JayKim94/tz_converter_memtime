@@ -7,45 +7,40 @@ export enum AppMode {
 }
 
 export type City = {
-  id: string;
-  name: string;
-  time: string | number;
+  city: string;
+  country: string;
   timezone: string;
+  time?: string;
 };
 
 const store = reactive<{
   mode: AppMode;
-  currentTime: string;
+  currentTime: Date;
+  currentTimezone: string;
   timeInput: string;
   selectedCities: City[];
   cityList: City[];
+  ToggleMode: () => void;
   SetTime: () => void;
   AddCity: (name: string) => void;
   GetStyle: (target: "text" | "border") => string;
+  GetTime: (timezone: string) => Date;
 }>({
   mode: AppMode.Current,
-  currentTime: Fn.GetCurrentTime(),
+  currentTime: new Date(),
+  currentTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   timeInput: "13:00:00",
   selectedCities: [],
-  cityList: [
-    {
-      id: "0",
-      name: "Beijing",
-      time: "00:00",
-      timezone: "CEST",
-    },
-    {
-      id: "1",
-      name: "Seoul",
-      time: "14:00",
-      timezone: "CEST",
-    },
-  ],
+  cityList: [],
+  ToggleMode() {
+    this.mode =
+      this.mode === AppMode.Current ? AppMode.Custom : AppMode.Current;
+  },
   SetTime() {},
   AddCity(name) {
     if (!name) return;
     name = name.toLowerCase();
-    const city = this.cityList.find((c) => c.name.toLowerCase() === name);
+    const city = this.cityList.find((c) => c.city.toLowerCase() === name);
     if (city === undefined || city === null) return;
     this.selectedCities.push(city);
   },
@@ -54,6 +49,13 @@ const store = reactive<{
       return `${target}-indigo-200`;
     } else {
       return `${target}-yellow-600`;
+    }
+  },
+  GetTime(timeZone) {
+    if (this.mode === AppMode.Current) {
+      return Fn.ConvertTimeZone(this.currentTime, timeZone);
+    } else {
+      return Fn.ConvertTimeZone(new Date(), timeZone);
     }
   },
 });
