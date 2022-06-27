@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watchEffect } from "vue";
-
-enum AppMode {
-  Current = "Synchronized",
-  Custom = "Arbitrary",
-}
+import store, { AppMode } from "./store";
 
 type City = {
   name: string;
@@ -49,11 +45,10 @@ const cityList = ref<City[]>([
 ]);
 const timeInput = ref<string>(getCurrentTime());
 const cityInput = ref<string>("");
-const mode = ref<AppMode>(AppMode.Current);
 
 onMounted(() => {
   setInterval(() => {
-    if (mode.value !== AppMode.Current) return;
+    if (store.mode !== AppMode.Current) return;
     timeInput.value = getCurrentTime();
     console.log(timeInput.value);
   }, 1000);
@@ -76,22 +71,13 @@ onMounted(() => {
       <form @submit.prevent="onSetTime">
         <label class="text-2xl text-indigo-100"> Standard Time </label>
         <div class="pb-1 flex">
-          <p
-            class="text-xs"
-            :class="{
-              'text-indigo-200': mode === AppMode.Current,
-              'text-yello-600': mode === AppMode.Custom,
-            }"
-          >
-            {{ mode }}
+          <p class="text-xs" :class="store.GetStyle('text')">
+            {{ store.mode }}
           </p>
         </div>
         <input
           class="w-96 text-4xl px-8 py-3 drop-shadow border-4 font-semibold rounded"
-          :class="{
-            'border-indigo-200': mode === AppMode.Current,
-            'border-yellow-600': mode === AppMode.Custom,
-          }"
+          :class="store.GetStyle('border')"
           name="time_input"
           type="time"
           v-model="timeInput"
