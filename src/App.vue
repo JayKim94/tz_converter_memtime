@@ -5,6 +5,14 @@ import Times from "./components/Times.vue";
 import YourCities from "./components/YourCities.vue";
 // @ts-ignore
 import ModeButton from "./components/ModeButton.vue";
+import { onBeforeMount } from "@vue/runtime-core";
+import store from "./store";
+
+onBeforeMount(() => {
+  fetch("./cityList.json")
+    .then((res) => res.json())
+    .then((json) => (store.cityList = json));
+});
 </script>
 
 <template>

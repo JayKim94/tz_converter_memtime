@@ -2,9 +2,9 @@
 import Fn from "../functions";
 import { onMounted } from "@vue/runtime-core";
 import store, { AppMode } from "../store";
-import Box from "./Box.vue";
+import Box from "../shared/Box.vue";
 // @ts-ignore
-import Heading from "./Heading.vue";
+import Heading from "../shared/Heading.vue";
 import { ref } from "vue";
 
 onMounted(() => {

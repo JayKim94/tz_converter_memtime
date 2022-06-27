@@ -34,7 +34,7 @@ const Fn = {
       })
       .join("");
 
-    return `${long} (${short})`;
+    return `${long}(${short})`;
   },
   ConvertTimeZone(date: Date, timeZone: string): Date {
     return new Date(new Date(date).toLocaleString("en-US", { timeZone }));

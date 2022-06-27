@@ -2,32 +2,41 @@
 // @ts-ignore
 import store, { City } from "../store";
 // @ts-ignore
-import Heading from "./Heading.vue";
+import Heading from "../shared/Heading.vue";
 // @ts-ignore
 import AddIcon from "../assets/add.png";
 // @ts-ignore
 import TableList from "./TableList.vue";
-import { onBeforeMount, onMounted, ref, watchEffect } from "vue";
-import Fn from "../functions";
+import { ref } from "vue";
 
 const cityInput = ref<string>("");
+const error = ref<string>("");
 const selectedCities = ref<City[]>([] as City[]);
-
-onBeforeMount(() => {
-  fetch("./cityList.json")
-    .then((res) => res.json())
-    .then((json) => (store.cityList = json));
-});
 
 function onAddCity() {
   const city = store.cityList.find(
     (c) => c.city.toLowerCase() === cityInput.value.toLowerCase()
   );
 
-  cityInput.value = "";
-  if (city === null || city === undefined) return;
+  if (city === null || city === undefined) {
+    error.value = "Not a valid city name";
+    return;
+  }
+
+  if (selectedCities.value.findIndex((c) => c.city === city.city) > -1) {
+    error.value = "Already on the list.";
+    return;
+  }
 
   selectedCities.value.push(city);
+  cityInput.value = "";
+  error.value = "";
+}
+
+function onDeleteCity(name: string) {
+  selectedCities.value = [
+    ...selectedCities.value.filter((c) => c.city !== name),
+  ];
 }
 </script>
 
@@ -37,7 +46,9 @@ function onAddCity() {
       class="flex flex-col lg:gap-9 gap-6 lg:flex-row justify-between lg:justify-start"
     >
       <Heading :title="'Your Cities'" :subtitle="'Add a city from the list'" />
-      <div class="flex items-center gap-2">
+      <div
+        class="relative flex items-center justify-between lg:justify-start gap-2"
+      >
         <input
           type="text"
           name="city"
@@ -45,6 +56,9 @@ function onAddCity() {
           v-model="cityInput"
           list="cityDatalist"
         />
+        <p class="absolute -bottom-5 lg:-bottom-3 left-0 text-xs text-red-300">
+          {{ error }}
+        </p>
         <datalist id="cityDatalist">
           <option
             v-for="(city, index) in store.cityList"
@@ -53,11 +67,18 @@ function onAddCity() {
             @click="cityInput = city.city"
           />
         </datalist>
-        <button @click="onAddCity">
+        <button
+          @click="onAddCity"
+          class="transition-opacity opacity-60 hover:opacity-100"
+        >
           <img :src="AddIcon" width="40" height="40" />
         </button>
       </div>
     </div>
-    <TableList :headers="['City', 'Time', 'Timezone']" :list="selectedCities" />
+    <TableList
+      :headers="['City', 'Time', 'Timezone']"
+      :list="selectedCities"
+      @delete="onDeleteCity"
+    />
   </div>
 </template>
