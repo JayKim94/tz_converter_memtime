@@ -1,25 +1,70 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+<script setup lang="ts">
+import Fn from "../functions";
+import { onMounted } from "@vue/runtime-core";
+import store, { AppMode } from "../store";
+import Box from "./Box.vue";
+// @ts-ignore
+import Heading from "./Heading.vue";
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+onMounted(() => {
+  setInterval(() => {
+    if (store.mode !== AppMode.Current) return;
+    store.currentTime = Fn.GetCurrentTime();
+  }, 1000);
+});
+</script>
 
-body {
-  font-family: "Montserrat", sans-serif;
-}
+<template>
+  <div class="flex gap-2">
+    <div
+      class="relative cursor-pointer"
+      :class="{ 'opacity-40': store.mode !== AppMode.Current }"
+      @click="store.mode = AppMode.Current"
+    >
+      <Heading :title="'Current Time'" :subtitle="'Paderborn, Germany'" />
+      <Box>
+        <template #content>
+          <p
+            v-if="store.mode === AppMode.Current"
+            class="text-4xl text-center font-semibold tracking-wide"
+          >
+            {{ store.currentTime }}
+          </p>
+          <p
+            v-if="store.mode === AppMode.Custom"
+            class="text-4xl text-center font-bold opacity-40"
+          >
+            Paused
+          </p>
+        </template>
+      </Box>
+    </div>
+    <form
+      class="cursor-pointer"
+      :class="{ 'opacity-40': store.mode !== AppMode.Custom }"
+      @click="store.mode = AppMode.Custom"
+      @submit.prevent="store.SetTime()"
+    >
+      <Heading
+        :title="'Enter Time'"
+        :subtitle="'Based on your current location'"
+      />
+      <Box>
+        <template #content>
+          <input
+            class="text-4xl font-semibold"
+            :class="store.GetStyle('border')"
+            name="time_input"
+            type="time"
+            v-model="store.timeInput"
+          />
+        </template>
+      </Box>
+    </form>
+  </div>
+</template>
 
-.background {
-  background-image: linear-gradient(112.1deg, #202639 11.4%, #3f4c77 70.2%);
-}
-
-input:focus {
-  outline: none;
-}
-
+<style scoped>
 /* Wrapper around the hour, minute, second, and am/pm fields as well as 
 the up and down buttons and the 'X' button */
 input[type="time"]::-webkit-datetime-edit-fields-wrapper {
@@ -93,3 +138,4 @@ input[type="time"]::-webkit-clear-button {
 input[type="time"]::-webkit-inner-spin-button {
   display: none;
 }
+</style>
