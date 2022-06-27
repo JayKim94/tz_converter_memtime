@@ -36,8 +36,22 @@ const Fn = {
 
     return `${long} (${short})`;
   },
-  ConvertTimeZone(date: Date, timeZone: string) {
+  ConvertTimeZone(date: Date, timeZone: string): Date {
     return new Date(new Date(date).toLocaleString("en-US", { timeZone }));
+  },
+  FromTime(time: string): Date {
+    const d = new Date(),
+      parts = time.match(/(\d+)\:(\d+)/);
+
+    if (parts === null) return d;
+
+    const hours = parseInt(parts[1], 10),
+      minutes = parseInt(parts[2], 10);
+
+    d.setHours(hours);
+    d.setMinutes(minutes);
+
+    return d;
   },
 };
 

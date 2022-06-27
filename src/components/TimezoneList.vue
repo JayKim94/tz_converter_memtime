@@ -5,6 +5,8 @@ import store, { City } from "../store";
 import Heading from "./Heading.vue";
 // @ts-ignore
 import AddIcon from "../assets/add.png";
+// @ts-ignore
+import TableList from "./TableList.vue";
 import { onBeforeMount, onMounted, ref, watchEffect } from "vue";
 import Fn from "../functions";
 
@@ -14,13 +16,8 @@ const selectedCities = ref<City[]>([] as City[]);
 onBeforeMount(() => {
   fetch("./cityList.json")
     .then((res) => res.json())
-    .then((json) => {
-      store.cityList = json;
-      console.log(json);
-    });
+    .then((json) => (store.cityList = json));
 });
-
-watchEffect(() => store.currentTime);
 
 function onAddCity() {
   const city = store.cityList.find(
@@ -50,8 +47,8 @@ function onAddCity() {
           <option
             v-for="(city, index) in store.cityList"
             :key="index"
-            :data-value="city.timezone"
             :value="city.city"
+            @click="cityInput = city.city"
           />
         </datalist>
         <button @click="onAddCity">
@@ -59,51 +56,6 @@ function onAddCity() {
         </button>
       </div>
     </div>
-    <table class="text-center mt-4">
-      <tr class="text-indigo-200 opacity-80">
-        <th>City</th>
-        <th>Time</th>
-        <th>Timezone</th>
-      </tr>
-      <tr v-if="selectedCities.length === 0">
-        <td colspan="3" class="text-indigo-200 none">No Selected City</td>
-      </tr>
-      <tr v-for="(city, index) in selectedCities" :key="index">
-        <td class="text-white">{{ city.city }}</td>
-        <td class="text-indigo-100">
-          {{ Fn.FormatTime(store.GetTime(city.timezone), "HH:MM:SS") }}
-        </td>
-        <td class="text-indigo-200 text-sm truncate">
-          {{ Fn.GetTimeZone(city.timezone) }}
-        </td>
-      </tr>
-    </table>
+    <TableList :headers="['City', 'Time', 'Timezone']" :list="selectedCities" />
   </div>
 </template>
-
-<style scoped>
-table {
-  table-layout: fixed;
-  width: 34rem;
-}
-
-th {
-  padding: 0 0 10px 0;
-}
-
-td {
-  padding: 5px 0;
-}
-
-td:nth-of-type(2) {
-  width: 30px;
-}
-
-td:nth-of-type(3) {
-  width: 60px;
-}
-
-td.none {
-  padding: 25px 0;
-}
-</style>

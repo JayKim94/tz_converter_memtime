@@ -5,6 +5,7 @@ import store, { AppMode } from "../store";
 import Box from "./Box.vue";
 // @ts-ignore
 import Heading from "./Heading.vue";
+import { ref } from "vue";
 
 onMounted(() => {
   setInterval(() => {

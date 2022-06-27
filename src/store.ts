@@ -29,7 +29,7 @@ const store = reactive<{
   mode: AppMode.Current,
   currentTime: new Date(),
   currentTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-  timeInput: "13:00:00",
+  timeInput: "13:00",
   selectedCities: [],
   cityList: [],
   ToggleMode() {
@@ -55,7 +55,7 @@ const store = reactive<{
     if (this.mode === AppMode.Current) {
       return Fn.ConvertTimeZone(this.currentTime, timeZone);
     } else {
-      return Fn.ConvertTimeZone(new Date(), timeZone);
+      return Fn.ConvertTimeZone(Fn.FromTime(this.timeInput), timeZone);
     }
   },
 });
