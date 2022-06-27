@@ -10,10 +10,13 @@
 
 body {
   font-family: "Montserrat", sans-serif;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .background {
   background-image: linear-gradient(112.1deg, #202639 11.4%, #3f4c77 70.2%);
+  background-size: cover;
 }
 
 input:focus {

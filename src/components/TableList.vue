@@ -41,7 +41,7 @@ watchEffect(() => store.currentTime);
 <style scoped>
 table {
   table-layout: fixed;
-  width: 34rem;
+  width: min(36rem, 80%);
 }
 
 th {
@@ -53,12 +53,14 @@ td {
   border-top: 1px solid #ccccccaa;
 }
 
-td:nth-of-type(2) {
-  width: 30px;
-}
+@media only screen and (max-width: 1024px) {
+  td:nth-of-type(2) {
+    width: 30px;
+  }
 
-td:nth-of-type(3) {
-  width: 60px;
+  td:nth-of-type(3) {
+    width: 60px;
+  }
 }
 
 td.none {

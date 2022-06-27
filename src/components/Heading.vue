@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col w-[300px]">
     <label class="text-2xl text-indigo-100">{{ props.title }}</label>
     <div class="pb-1 flex gap-1">
       <img v-if="icon" :src="MapIcon" width="16" height="16" />

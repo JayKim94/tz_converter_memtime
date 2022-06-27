@@ -16,10 +16,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex gap-2">
+  <div class="flex flex-col items-center lg:items-start lg:flex-row lg:gap-2">
     <div
-      class="relative cursor-pointer"
-      :class="{ 'opacity-40': store.mode !== AppMode.Current }"
+      class="relative cursor-pointer transition-opacity"
+      :class="{
+        'lg:opacity-40 lg:block hidden': store.mode !== AppMode.Current,
+      }"
       @click="store.mode = AppMode.Current"
     >
       <Heading
@@ -50,14 +52,16 @@ onMounted(() => {
       </Box>
     </div>
     <form
-      class="cursor-pointer"
-      :class="{ 'opacity-40': store.mode !== AppMode.Custom }"
+      class="cursor-pointer transition-opacity"
+      :class="{
+        'lg:opacity-40 lg:block hidden': store.mode !== AppMode.Custom,
+      }"
       @click="store.mode = AppMode.Custom"
       @submit.prevent="store.SetTime()"
     >
       <Heading
         :title="'Enter Time'"
-        :subtitle="'Based on ' + store.currentTimezone"
+        :subtitle="'Based on ' + Fn.GetTimeZone(store.currentTimezone)"
       />
       <Box>
         <template #content>

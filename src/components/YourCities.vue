@@ -32,8 +32,10 @@ function onAddCity() {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 mt-4">
-    <div class="flex justify-between">
+  <div class="flex flex-col items-center gap-4 mt-4">
+    <div
+      class="flex flex-col lg:gap-9 gap-6 lg:flex-row justify-between lg:justify-start"
+    >
       <Heading :title="'Your Cities'" :subtitle="'Add a city from the list'" />
       <div class="flex items-center gap-2">
         <input
