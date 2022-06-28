@@ -4,6 +4,11 @@
 
 #### JavaScript Challenge - Jawoon Kim _2022.06.27_ - _2022.06.28_
 
+#### Tech Stack
+- Vue.js (Typescript)
+- TailwindCSS
+- Vite/Vitest
+
 #### Installation
 
 1. Install dependencies
