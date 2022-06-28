@@ -50,8 +50,8 @@ onMounted(() => {
         </template>
       </Box>
     </div>
-    <form
-      class="cursor-pointer transition-opacity"
+    <div
+      class="relative cursor-pointer transition-opacity"
       :class="{
         'lg:opacity-40 lg:block hidden': store.mode !== AppMode.Custom,
       }"
@@ -71,6 +71,6 @@ onMounted(() => {
           />
         </template>
       </Box>
-    </form>
+    </div>
   </div>
 </template>
