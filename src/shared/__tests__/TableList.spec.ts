@@ -36,6 +36,6 @@ describe("TableList", () => {
     });
     expect(wrapper.findAll("th").length).toBe(4);
     expect(wrapper.findAll("tr").length).toBe(2);
-    expect(wrapper.text()).toContain("No Selected City");
+    expect(wrapper.text()).toContain("Empty List");
   });
 });
