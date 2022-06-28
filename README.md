@@ -20,7 +20,7 @@ npm run dev
 
 1. Run Vitest
 ```sh
-npm test
+npm run test
 ```
 
 2. Open Vitest UI
