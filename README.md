@@ -28,4 +28,4 @@ npm test
 http://localhost:51204/__vitest__/
 ```
 
-### ![View Demo](https://tz-converter-memtime.vercel.app/)
+### [View Demo](https://tz-converter-memtime.vercel.app/)
