@@ -28,4 +28,12 @@ npm test
 http://localhost:51204/__vitest__/
 ```
 
-### [View Demo](https://tz-converter-memtime.vercel.app/)
+#### Requirements
+- [x] User input for the time (as switchable mode)
+- [x] Live updating local time
+- [x] Sync with times in the table
+- [x] Add cities from the datalist
+- [x] Delete cities from the table
+- [x] Vitest (component render tests)
+
+#### [View Demo](https://tz-converter-memtime.vercel.app/)
