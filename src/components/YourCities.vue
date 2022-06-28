@@ -6,14 +6,14 @@ import Heading from "../shared/Heading.vue";
 // @ts-ignore
 import AddIcon from "../assets/add.png";
 // @ts-ignore
-import TableList from "./TableList.vue";
+import TableList from "../shared/TableList.vue";
 import { ref } from "vue";
 
 const cityInput = ref<string>("");
 const error = ref<string>("");
 const selectedCities = ref<City[]>([] as City[]);
 
-function onAddCity() {
+function onAddCity(): void {
   const city = store.cityList.find(
     (c) => c.city.toLowerCase() === cityInput.value.toLowerCase()
   );
@@ -33,7 +33,7 @@ function onAddCity() {
   error.value = "";
 }
 
-function onDeleteCity(name: string) {
+function onDeleteCity(name: string): void {
   selectedCities.value = [
     ...selectedCities.value.filter((c) => c.city !== name),
   ];
@@ -55,6 +55,7 @@ function onDeleteCity(name: string) {
           class="py-2 px-3 rounded font-semibold"
           v-model="cityInput"
           list="cityDatalist"
+          @keydown.enter="onAddCity"
         />
         <p class="absolute -bottom-5 lg:-bottom-3 left-0 text-xs text-red-300">
           {{ error }}

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // @ts-ignore
-import { ref, defineProps, PropType, watchEffect, defineEmits } from "vue";
+import { PropType, watchEffect } from "vue";
 // @ts-ignore
 import store, { City } from "../store";
 import Fn from "../functions";
@@ -19,14 +19,19 @@ watchEffect(() => store.currentTime);
 </script>
 <template>
   <table class="text-center mt-4">
-    <tr class="text-indigo-200 opacity-80">
+    <tr id="table_header" class="text-indigo-200 opacity-80">
       <th v-for="(h, i) in props.headers" :key="i" class="text-sm lg:text-md">
-        {{ h }}
+        {{ i === 1 && store.mode === AppMode.Current ? h + "(Sync)" : h }}
       </th>
       <th></th>
     </tr>
     <tr v-if="list?.length === 0">
-      <td colspan="3" class="text-indigo-200 none">No Selected City</td>
+      <td colspan="3" class="text-indigo-200 none">
+        <div class="flex flex-col justify-center">
+          <p class="opacity-80">Empty List</p>
+          <p class="text-sm opacity-60">Search and add a city</p>
+        </div>
+      </td>
     </tr>
     <tr v-for="(city, index) in list" :key="index">
       <td class="text-white">{{ city.city }}</td>
@@ -52,7 +57,7 @@ watchEffect(() => store.currentTime);
 <style scoped>
 table {
   table-layout: fixed;
-  width: min(36rem, 80%);
+  width: min(40rem, 80%);
 }
 
 th {
@@ -79,7 +84,7 @@ th:nth-of-type(4) {
 }
 
 td.none {
-  padding: 25px 0;
+  padding: 30px 0 0 0;
   border: none;
 }
 </style>

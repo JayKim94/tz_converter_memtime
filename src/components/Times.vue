@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import Fn from "../functions";
-import { onMounted } from "@vue/runtime-core";
-import store, { AppMode } from "../store";
-import Box from "../shared/Box.vue";
 // @ts-ignore
 import Heading from "../shared/Heading.vue";
-import { ref } from "vue";
+import Fn from "../functions";
+import Box from "../shared/Box.vue";
+import store, { AppMode } from "../store";
+import { onMounted } from "@vue/runtime-core";
 
 onMounted(() => {
   setInterval(() => {
@@ -35,7 +34,7 @@ onMounted(() => {
             v-if="store.mode === AppMode.Current"
             class="text-4xl text-center font-semibold tracking-wide"
           >
-            <span class="text-4xl font-semibold tracking-wide">
+            <span class="text-5xl font-semibold tracking-wide">
               {{ Fn.FormatTime(store.currentTime, "HH:MM") }}
             </span>
             <span class="text-sm ml-1 text-indigo-900">
@@ -44,7 +43,7 @@ onMounted(() => {
           </p>
           <p
             v-if="store.mode === AppMode.Custom"
-            class="text-4xl text-center font-bold opacity-40"
+            class="text-4xl text-center font-bold opacity-20"
           >
             Paused
           </p>
@@ -57,7 +56,6 @@ onMounted(() => {
         'lg:opacity-40 lg:block hidden': store.mode !== AppMode.Custom,
       }"
       @click="store.mode = AppMode.Custom"
-      @submit.prevent="store.SetTime()"
     >
       <Heading
         :title="'Enter Time'"
@@ -66,8 +64,7 @@ onMounted(() => {
       <Box>
         <template #content>
           <input
-            class="text-4xl font-semibold"
-            :class="store.GetStyle('border')"
+            class="text-5xl font-semibold"
             name="time_input"
             type="time"
             v-model="store.timeInput"

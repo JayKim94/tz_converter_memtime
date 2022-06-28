@@ -1,5 +1,10 @@
-const Fn = {
-  FormatTime(date: Date, format: string = "HH:MM:SS"): string {
+const Fn: {
+  FormatTime: (date: Date, format: string) => string;
+  GetTimeZone: (timeZone: string) => string;
+  ConvertTimeZone: (date: Date, timeZone: string) => Date;
+  FromTime: (time: string) => Date;
+} = {
+  FormatTime(date, format = "HH:MM:SS") {
     let hours: string | number = date.getHours(),
       minutes: string | number = date.getMinutes(),
       seconds: string | number = date.getSeconds();
@@ -16,10 +21,10 @@ const Fn = {
       return hours + ":" + minutes + ":" + seconds;
     }
   },
-  GetTimeZone(timeZone: string) {
+  GetTimeZone(timeZone) {
     const date = new Date();
     const short = date
-      .toLocaleTimeString("en-US", { timeZoneName: "shortOffset", timeZone })
+      .toLocaleTimeString("en-US", { timeZoneName: "short", timeZone })
       .split(" ")[2];
     const long = date
       .toLocaleTimeString("en-US", {
@@ -36,10 +41,10 @@ const Fn = {
 
     return `${long}(${short})`;
   },
-  ConvertTimeZone(date: Date, timeZone: string): Date {
+  ConvertTimeZone(date, timeZone) {
     return new Date(new Date(date).toLocaleString("en-US", { timeZone }));
   },
-  FromTime(time: string): Date {
+  FromTime(time) {
     const d = new Date(),
       parts = time.match(/(\d+)\:(\d+)/);
 
